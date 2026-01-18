@@ -62,3 +62,7 @@
     font-weight: bold;
     text-transform: capitalize;
 }
+
+.favorite-button {
+    z-index: 10;
+}

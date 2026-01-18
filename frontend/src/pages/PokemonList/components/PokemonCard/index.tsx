@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardMedia, Typography, Box, Chip, Skeleton } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Box, Chip, Skeleton, IconButton } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useFavorites } from '../../../../context/FavoritesContext';
 import type { PokemonDetail } from '../../../../types/pokemon';
 import { typeColors } from '../../../../theme/theme';
 import './styles.css';
@@ -14,11 +17,15 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
     const mainType = pokemon.types[0]?.type.name || 'normal';
     const backgroundColor = typeColors[mainType] || '#A8A77A';
 
+    const { favorites, toggleFavorite } = useFavorites();
+    const isFavorite = favorites.includes(pokemon.id);
+
     return (
         <Card
             className="pokemon-card"
             style={{
-                background: `linear-gradient(135deg, ${backgroundColor} 0%, ${backgroundColor}aa 100%)`
+                background: `linear-gradient(135deg, ${backgroundColor} 0%, ${backgroundColor}aa 100%)`,
+                position: 'relative'
             }}
         >
             <Box className="pokemon-card-image-container">
@@ -53,6 +60,30 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
                         />
                     ))}
                 </Box>
+                <IconButton
+                    onClick={() => toggleFavorite(pokemon.id)}
+                    className="favorite-button"
+                    sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        backdropFilter: 'blur(4px)',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                        '&:hover': {
+                            backgroundColor: 'rgba(255, 255, 255, 1)',
+                            transform: 'scale(1.1)',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
+                        },
+                        transition: 'all 0.2s ease-in-out',
+                    }}
+                >
+                    {isFavorite ? (
+                        <FavoriteIcon sx={{ color: '#e91e63', fontSize: 28 }} />
+                    ) : (
+                        <FavoriteBorderIcon sx={{ color: '#666', fontSize: 28 }} />
+                    )}
+                </IconButton>
             </CardContent>
         </Card>
     );
