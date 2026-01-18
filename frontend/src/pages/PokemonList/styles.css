@@ -1,0 +1,28 @@
+.pokemon-list-loading-container,
+.pokemon-list-error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    width: 100%;
+}
+
+.pokemon-list-container {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.pokemon-list-title {
+    font-weight: bold !important;
+    text-align: center;
+    margin-bottom: 32px !important;
+    /* 4 * 8px */
+    color: #333;
+}
+
+.pokemon-list-pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+    margin-bottom: 32px;
+}
