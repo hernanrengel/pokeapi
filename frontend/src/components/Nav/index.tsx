@@ -25,6 +25,9 @@ const Nav: React.FC = () => {
                     icon={<FavoriteIcon className="favorites-icon" />}
                     label={`${favorites.length} Favorite${favorites.length > 1 ? 's' : ''}`}
                     className="favorites-chip"
+                    component={Link}
+                    to="/favorites"
+                    clickable
                 />
             )}
         </Box>

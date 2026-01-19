@@ -27,6 +27,13 @@ export type PokemonType = {
     };
 };
 
+export type PokemonMove = {
+    move: {
+        name: string;
+        url: string;
+    };
+};
+
 export type PokemonSprites = {
     front_default: string;
     other?: {
@@ -44,4 +51,5 @@ export type PokemonDetail = {
     abilities: PokemonAbility[];
     types: PokemonType[];
     sprites: PokemonSprites;
+    moves: PokemonMove[];
 };

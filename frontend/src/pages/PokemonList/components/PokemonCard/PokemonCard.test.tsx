@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import PokemonCard from './index';
+import { FavoritesProvider } from '../../../../context/FavoritesContext';
 import type { PokemonDetail } from '../../../../types/pokemon';
 
 const mockPokemon: PokemonDetail = {
@@ -18,11 +19,16 @@ const mockPokemon: PokemonDetail = {
     height: 7,
     weight: 69,
     abilities: [],
+    moves: [],
 };
 
 describe('PokemonCard', () => {
     it('should render pokemon details correctly', () => {
-        render(<PokemonCard pokemon={mockPokemon} />);
+        render(
+            <FavoritesProvider>
+                <PokemonCard pokemon={mockPokemon} />
+            </FavoritesProvider>
+        );
 
         expect(screen.getByText('bulbasaur')).toBeInTheDocument();
         expect(screen.getByText('#001')).toBeInTheDocument();

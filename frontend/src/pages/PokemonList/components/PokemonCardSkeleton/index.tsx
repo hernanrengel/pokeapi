@@ -4,7 +4,7 @@ import '../PokemonCard/styles.css';
 
 const PokemonCardSkeleton: React.FC = () => {
     return (
-        <Card className="pokemon-card" style={{ background: '#f5f5f5' }}>
+        <Card className="pokemon-card" style={{ background: '#f5f5f5' }} data-testid="pokemon-card-skeleton">
             <Box className="pokemon-card-image-container">
                 <Skeleton variant="rectangular" width={120} height={120} style={{ borderRadius: '50%' }} />
             </Box>

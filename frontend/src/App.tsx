@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from './theme/theme';
 import PokemonList from './pages/PokemonList/';
+import Favorites from './pages/Favorites/';
 import Header from './components/Header';
 import { FavoritesProvider } from './context/FavoritesContext';
 
@@ -14,6 +15,7 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<PokemonList />} />
+            <Route path="/favorites" element={<Favorites />} />
           </Routes>
         </Router>
       </FavoritesProvider>

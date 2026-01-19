@@ -4,7 +4,7 @@ import type { PokemonListResponse, PokemonDetail } from '../types/pokemon';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
-export const usePokemonList = (limit: number = 20) => {
+export const usePokemonList = (limit: number = 21) => {
     const [pokemonList, setPokemonList] = useState<PokemonDetail[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
