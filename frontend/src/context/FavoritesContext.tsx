@@ -114,7 +114,7 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children 
                 open={toastOpen}
                 autoHideDuration={TOAST_DURATION}
                 onClose={() => setToastOpen(false)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
                 <Alert onClose={() => setToastOpen(false)} severity="success" sx={{ width: '100%' }}>
                     {toastMessage}

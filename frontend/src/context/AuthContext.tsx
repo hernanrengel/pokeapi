@@ -58,7 +58,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setUser(response.user);
             localStorage.setItem(TOKEN_KEY, response.token);
             localStorage.setItem(USER_KEY, JSON.stringify(response.user));
-            showToast('¡Sesión iniciada exitosamente!', 'success');
+            showToast('Session started successfully!', 'success');
         } catch (error: any) {
             // Error will be handled by the modal component
             throw error;
@@ -74,7 +74,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setUser(response.user);
             localStorage.setItem(TOKEN_KEY, response.token);
             localStorage.setItem(USER_KEY, JSON.stringify(response.user));
-            showToast('¡Cuenta creada exitosamente!', 'success');
+            showToast('Account created successfully!', 'success');
         } catch (error: any) {
             // Error will be handled by the modal component
             throw error;
@@ -87,7 +87,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setUser(null);
         localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem(USER_KEY);
-        showToast('Sesión cerrada', 'success');
+        showToast('Closed session successfully', 'success');
     };
 
     const value: AuthContextType = {
@@ -106,7 +106,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 open={toastOpen}
                 autoHideDuration={TOAST_DURATION}
                 onClose={() => setToastOpen(false)}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
                 <Alert onClose={() => setToastOpen(false)} severity={toastSeverity} sx={{ width: '100%' }}>
                     {toastMessage}

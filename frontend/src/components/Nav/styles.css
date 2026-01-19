@@ -1,41 +1,52 @@
 .nav-container {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     align-items: center;
 }
 
 .nav-button {
-    border-radius: 8px;
-    padding-left: 16px;
-    padding-right: 16px;
-    transition: all 0.2s ease-in-out;
+    border-radius: 12px !important;
+    padding: 8px 20px !important;
+    transition: all 0.3s ease !important;
     text-transform: none !important;
+    font-weight: 500 !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
 }
 
 .nav-button:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .favorites-chip {
-    background-color: #34495e;
-    color: #ecf0f1 !important;
-    font-weight: 500;
-    border: 1px solid rgba(83, 7, 7, 0.1);
-    transition: all 0.2s ease-in-out;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 8px 16px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
 }
 
 .favorites-chip:hover {
-    background-color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 87, 108, 0.5) !important;
 }
 
 .favorites-icon {
-    color: #e74c3c !important;
-    font-size: 18px;
+    color: #ffffff !important;
+    font-size: 18px !important;
 }
 
 .user-name {
-    color: #ecf0f1 !important;
+    color: #ffffff !important;
     font-weight: 500;
     font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 8px 16px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
 }

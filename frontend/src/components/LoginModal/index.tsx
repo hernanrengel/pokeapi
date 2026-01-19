@@ -22,9 +22,9 @@ interface LoginModalProps {
 
 const validationSchema = Yup.object({
     email: Yup.string()
-        .email('Correo electrónico inválido')
-        .required('El correo electrónico es requerido'),
-    password: Yup.string().required('La contraseña es requerida'),
+        .email('Invalid email address')
+        .required('Email is required'),
+    password: Yup.string().required('Password is required'),
 });
 
 const initialValues: LoginRequest = {
@@ -49,7 +49,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
             const errorMessage = error.response?.data?.error ||
                 error.response?.data?.message ||
                 error.message ||
-                'Error al iniciar sesión';
+                'Login error';
             setServerError(errorMessage);
         } finally {
             setSubmitting(false);
@@ -63,7 +63,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
 
     return (
         <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-            <DialogTitle>Iniciar Sesión</DialogTitle>
+            <DialogTitle>Login</DialogTitle>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -81,7 +81,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
                                 <Field
                                     as={TextField}
                                     name="email"
-                                    label="Correo Electrónico"
+                                    label="Email"
                                     type="email"
                                     fullWidth
                                     error={touched.email && Boolean(errors.email)}
@@ -91,7 +91,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
                                 <Field
                                     as={TextField}
                                     name="password"
-                                    label="Contraseña"
+                                    label="Password"
                                     type="password"
                                     fullWidth
                                     error={touched.password && Boolean(errors.password)}
@@ -102,7 +102,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
                         </DialogContent>
                         <DialogActions sx={{ px: 3, pb: 2 }}>
                             <Button onClick={handleClose} disabled={isSubmitting}>
-                                Cancelar
+                                Cancel
                             </Button>
                             <Button
                                 type="submit"
@@ -110,7 +110,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
                                 disabled={isSubmitting}
                                 startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
                             >
-                                {isSubmitting ? 'Iniciando...' : 'Iniciar Sesión'}
+                                {isSubmitting ? 'Logging in...' : 'Login'}
                             </Button>
                         </DialogActions>
                     </Form>

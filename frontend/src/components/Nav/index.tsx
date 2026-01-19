@@ -60,19 +60,33 @@ const Nav: React.FC = () => {
                         </Box>
                     </>
                 ) : (
-                    <Box sx={{ display: 'flex', gap: 1, ml: 'auto' }}>
+                    <Box sx={{ display: 'flex', gap: 1.5, ml: 'auto' }}>
                         <Button
                             color="inherit"
                             startIcon={<LoginIcon />}
                             onClick={() => setLoginModalOpen(true)}
+                            className="nav-button"
                         >
                             Login
                         </Button>
                         <Button
-                            variant="outlined"
-                            color="inherit"
+                            variant="contained"
                             startIcon={<PersonAddIcon />}
                             onClick={() => setRegisterModalOpen(true)}
+                            sx={{
+                                background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                                borderRadius: '12px',
+                                padding: '8px 20px',
+                                fontWeight: 600,
+                                textTransform: 'none',
+                                boxShadow: '0 4px 12px rgba(79, 172, 254, 0.4)',
+                                transition: 'all 0.3s ease',
+                                '&:hover': {
+                                    background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: '0 6px 20px rgba(79, 172, 254, 0.6)',
+                                },
+                            }}
                         >
                             Register
                         </Button>

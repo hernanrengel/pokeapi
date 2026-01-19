@@ -22,11 +22,11 @@ interface RegisterModalProps {
 
 const validationSchema = Yup.object({
     email: Yup.string()
-        .email('Correo electrónico inválido')
-        .required('El correo electrónico es requerido'),
+        .email('Invalid email address')
+        .required('Email is required'),
     password: Yup.string()
-        .min(6, 'La contraseña debe tener al menos 6 caracteres')
-        .required('La contraseña es requerida'),
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
     name: Yup.string().optional(),
 });
 
@@ -62,7 +62,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ open, onClose }) => {
             const errorMessage = error.response?.data?.error ||
                 error.response?.data?.message ||
                 error.message ||
-                'Error al crear cuenta';
+                'Error creating account';
             setServerError(errorMessage);
         } finally {
             setSubmitting(false);
@@ -76,7 +76,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ open, onClose }) => {
 
     return (
         <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-            <DialogTitle>Crear Cuenta</DialogTitle>
+            <DialogTitle>Create Account</DialogTitle>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -94,7 +94,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ open, onClose }) => {
                                 <Field
                                     as={TextField}
                                     name="email"
-                                    label="Correo Electrónico"
+                                    label="Email"
                                     type="email"
                                     fullWidth
                                     error={touched.email && Boolean(errors.email)}
@@ -104,7 +104,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ open, onClose }) => {
                                 <Field
                                     as={TextField}
                                     name="password"
-                                    label="Contraseña"
+                                    label="Password"
                                     type="password"
                                     fullWidth
                                     error={touched.password && Boolean(errors.password)}
@@ -114,7 +114,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ open, onClose }) => {
                                 <Field
                                     as={TextField}
                                     name="name"
-                                    label="Nombre (Opcional)"
+                                    label="Name (Optional)"
                                     type="text"
                                     fullWidth
                                     error={touched.name && Boolean(errors.name)}
@@ -125,7 +125,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ open, onClose }) => {
                         </DialogContent>
                         <DialogActions sx={{ px: 3, pb: 2 }}>
                             <Button onClick={handleClose} disabled={isSubmitting}>
-                                Cancelar
+                                Cancel
                             </Button>
                             <Button
                                 type="submit"
@@ -133,7 +133,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ open, onClose }) => {
                                 disabled={isSubmitting}
                                 startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
                             >
-                                {isSubmitting ? 'Creando...' : 'Crear Cuenta'}
+                                {isSubmitting ? 'Creating...' : 'Create Account'}
                             </Button>
                         </DialogActions>
                     </Form>

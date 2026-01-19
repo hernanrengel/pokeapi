@@ -1,9 +1,13 @@
 .header {
-    background-color: #2c3e50 !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4) !important;
+    backdrop-filter: blur(10px);
 }
 
 .header-title {
     flex-grow: 1;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
