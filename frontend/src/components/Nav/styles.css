@@ -9,6 +9,7 @@
     padding-left: 16px;
     padding-right: 16px;
     transition: all 0.2s ease-in-out;
+    text-transform: none !important;
 }
 
 .nav-button:hover {
@@ -31,4 +32,10 @@
 .favorites-icon {
     color: #e74c3c !important;
     font-size: 18px;
+}
+
+.user-name {
+    color: #ecf0f1 !important;
+    font-weight: 500;
+    font-size: 14px;
 }

@@ -1,5 +1,7 @@
 import React, { createContext, useState, useContext, useEffect, type ReactNode } from 'react';
 import { Snackbar, Alert, Backdrop, CircularProgress } from '@mui/material';
+import { useAuth } from './AuthContext';
+import apiClient from '../services/api';
 
 // Types
 interface FavoritesContextType {
@@ -12,12 +14,12 @@ interface FavoriteResponse {
 }
 
 // Constants
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 const TOAST_DURATION = 3000;
 const TOAST_MESSAGES = {
     ADDED: 'Pokemon saved to favorites',
     REMOVED: 'Pokemon removed from favorites',
     ERROR: 'Error updating favorites',
+    AUTH_ERROR: 'Please login to manage favorites',
 } as const;
 
 // Context
@@ -26,36 +28,35 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(undefin
 // API Service
 const favoritesApi = {
     async fetchAll(): Promise<number[]> {
-        const response = await fetch(`${API_BASE_URL}/favorites`);
-        const data: FavoriteResponse[] = await response.json();
-        return data.map((fav) => fav.pokemonId);
+        const response = await apiClient.get<FavoriteResponse[]>('/favorites');
+        return response.data.map((fav) => fav.pokemonId);
     },
 
     async add(pokemonId: number): Promise<void> {
-        await fetch(`${API_BASE_URL}/favorites`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pokemonId }),
-        });
+        await apiClient.post('/favorites', { pokemonId });
     },
 
     async remove(pokemonId: number): Promise<void> {
-        await fetch(`${API_BASE_URL}/favorites/${pokemonId}`, {
-            method: 'DELETE',
-        });
+        await apiClient.delete(`/favorites/${pokemonId}`);
     },
 };
 
 // Provider Component
 export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const { isAuthenticated } = useAuth();
     const [favorites, setFavorites] = useState<number[]>([]);
     const [toastOpen, setToastOpen] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        loadFavorites();
-    }, []);
+        if (isAuthenticated) {
+            loadFavorites();
+        } else {
+            // Clear favorites when user logs out
+            setFavorites([]);
+        }
+    }, [isAuthenticated]);
 
     const loadFavorites = async () => {
         try {
@@ -63,6 +64,7 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children 
             setFavorites(pokemonIds);
         } catch (error) {
             console.error('Error fetching favorites:', error);
+            setFavorites([]);
         }
     };
 
@@ -72,6 +74,12 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children 
     };
 
     const toggleFavorite = async (pokemonId: number) => {
+        // Check if user is authenticated
+        if (!isAuthenticated) {
+            showToast(TOAST_MESSAGES.AUTH_ERROR);
+            return;
+        }
+
         const isFavorite = favorites.includes(pokemonId);
 
         setLoading(true);

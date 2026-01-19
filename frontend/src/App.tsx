@@ -5,20 +5,23 @@ import PokemonList from './pages/PokemonList/';
 import Favorites from './pages/Favorites/';
 import Header from './components/Header';
 import { FavoritesProvider } from './context/FavoritesContext';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <FavoritesProvider>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" element={<PokemonList />} />
-            <Route path="/favorites" element={<Favorites />} />
-          </Routes>
-        </Router>
-      </FavoritesProvider>
+      <AuthProvider>
+        <FavoritesProvider>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" element={<PokemonList />} />
+              <Route path="/favorites" element={<Favorites />} />
+            </Routes>
+          </Router>
+        </FavoritesProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

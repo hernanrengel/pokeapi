@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import type { PokemonDetail } from '../types/pokemon';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
 interface FavoriteResponse {
     id: string;
@@ -12,17 +11,25 @@ interface FavoriteResponse {
 }
 
 export const useFavorites = () => {
+    const { isAuthenticated } = useAuth();
     const [favorites, setFavorites] = useState<PokemonDetail[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchFavorites = async () => {
+            // Don't fetch if not authenticated
+            if (!isAuthenticated) {
+                setFavorites([]);
+                setLoading(false);
+                return;
+            }
+
             try {
                 setLoading(true);
                 setError(null);
 
-                const favoritesResponse = await axios.get<FavoriteResponse[]>(`${API_BASE_URL}/favorites`);
+                const favoritesResponse = await apiClient.get<FavoriteResponse[]>('/favorites');
 
                 if (favoritesResponse.data.length === 0) {
                     setFavorites([]);
@@ -31,7 +38,7 @@ export const useFavorites = () => {
                 }
 
                 const detailPromises = favoritesResponse.data.map(async (fav) => {
-                    const detailResponse = await axios.get<FavoriteResponse>(`${API_BASE_URL}/favorites/${fav.id}`);
+                    const detailResponse = await apiClient.get<FavoriteResponse>(`/favorites/${fav.id}`);
                     return detailResponse.data.pokemon;
                 });
 
@@ -46,7 +53,7 @@ export const useFavorites = () => {
         };
 
         fetchFavorites();
-    }, []);
+    }, [isAuthenticated]);
 
     return { favorites, loading, error };
 };
