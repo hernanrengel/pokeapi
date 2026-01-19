@@ -11,10 +11,65 @@ app.use(express.json());
 
 import { PokeApiService } from './src/services/pokeApi.service.js';
 import { FavoritesService } from './src/services/favorites.service.js';
+import { AuthService } from './src/services/auth.service.js';
+import { UserService } from './src/services/user.service.js';
+import { authenticate } from './src/middleware/auth.middleware.js';
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
+
+// ============= Auth Endpoints (Public) =============
+
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { email, password, name } = req.body;
+
+    if (!email || !password) {
+      res.status(400).json({ error: 'Email and password are required' });
+      return;
+    }
+
+    const result = await AuthService.register(email, password, name);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: (error as Error).message });
+  }
+});
+
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      res.status(400).json({ error: 'Email and password are required' });
+      return;
+    }
+
+    const result = await AuthService.login(email, password);
+    res.json(result);
+  } catch (error) {
+    res.status(401).json({ error: (error as Error).message });
+  }
+});
+
+app.get('/api/auth/me', authenticate, async (req, res) => {
+  try {
+    const user = await UserService.getUserById(req.user!.userId);
+
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    const { password: _, ...userWithoutPassword } = user;
+    res.json({ user: userWithoutPassword });
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+});
+
+// ============= Pokemon Endpoints (Public) =============
 
 app.get('/api/pokemon', async (req, res) => {
   try {
@@ -36,34 +91,36 @@ app.get('/api/pokemon/:id', async (req, res) => {
   }
 });
 
-app.get('/api/favorites', async (req, res) => {
+// ============= Favorites Endpoints (Protected) =============
+
+app.get('/api/favorites', authenticate, async (req, res) => {
   try {
-    const data = await FavoritesService.getFavorites();
+    const data = await FavoritesService.getFavorites(req.user!.userId);
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }
 });
 
-app.post('/api/favorites', async (req, res) => {
+app.post('/api/favorites', authenticate, async (req, res) => {
   try {
     const { pokemonId } = req.body;
     if (typeof pokemonId !== 'number') {
       res.status(400).json({ error: 'pokemonId must be a number' });
       return;
     }
-    const data = await FavoritesService.addFavorite(pokemonId);
+    const data = await FavoritesService.addFavorite(pokemonId, req.user!.userId);
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }
 });
 
-app.get('/api/favorites/:id', async (req, res) => {
+app.get('/api/favorites/:id', authenticate, async (req, res) => {
   try {
     const { id } = req.params;
 
-    const favorite = await FavoritesService.getFavoriteById(id);
+    const favorite = await FavoritesService.getFavoriteById(id, req.user!.userId);
 
     if (!favorite) {
       res.status(404).json({ error: 'Favorite not found' });
@@ -80,14 +137,14 @@ app.get('/api/favorites/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/favorites/:pokemonId', async (req, res) => {
+app.delete('/api/favorites/:pokemonId', authenticate, async (req, res) => {
   try {
     const pokemonId = parseInt(req.params.pokemonId);
     if (isNaN(pokemonId)) {
       res.status(400).json({ error: 'pokemonId must be a valid number' });
       return;
     }
-    const data = await FavoritesService.removeFavorite(pokemonId);
+    const data = await FavoritesService.removeFavorite(pokemonId, req.user!.userId);
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
