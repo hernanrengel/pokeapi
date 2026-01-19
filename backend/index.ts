@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import axios from 'axios';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -53,6 +54,27 @@ app.post('/api/favorites', async (req, res) => {
     }
     const data = await FavoritesService.addFavorite(pokemonId);
     res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+});
+
+app.get('/api/favorites/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const favorite = await FavoritesService.getFavoriteById(id);
+
+    if (!favorite) {
+      res.status(404).json({ error: 'Favorite not found' });
+      return;
+    }
+
+    const pokemonResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${favorite.pokemonId}`);
+    res.json({
+      ...favorite,
+      pokemon: pokemonResponse.data
+    });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }

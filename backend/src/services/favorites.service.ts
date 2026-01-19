@@ -38,4 +38,17 @@ export class FavoritesService {
 
         return rows as Array<{ id: string; pokemonId: number; createdAt: Date }>;
     }
+
+    static async getFavoriteById(id: string) {
+        const [rows] = await pool.execute(
+            'SELECT * FROM favorites WHERE id = ?',
+            [id]
+        );
+
+        if (!Array.isArray(rows) || rows.length === 0) {
+            return null;
+        }
+
+        return rows[0] as { id: string; pokemonId: number; createdAt: Date };
+    }
 }
