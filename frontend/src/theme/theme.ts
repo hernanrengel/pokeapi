@@ -20,6 +20,15 @@ export const typeColors: Record<string, string> = {
     fairy: '#D685AD',
 };
 
+/**
+ * Get the color associated with a Pokemon type
+ * @param type - The Pokemon type name
+ * @returns The hex color code for the type
+ */
+export const getPokemonTypeColor = (type: string): string => {
+    return typeColors[type.toLowerCase()] || typeColors.normal;
+};
+
 const theme = createTheme({
     palette: {
         primary: {

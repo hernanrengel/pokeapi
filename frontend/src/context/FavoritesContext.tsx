@@ -6,6 +6,7 @@ import apiClient from '../services/api';
 // Types
 interface FavoritesContextType {
     favorites: number[];
+    isFavorite: (id: number) => boolean;
     toggleFavorite: (id: number) => Promise<void>;
 }
 
@@ -101,8 +102,12 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children 
         }
     };
 
+    const isFavorite = (pokemonId: number): boolean => {
+        return favorites.includes(pokemonId);
+    };
+
     return (
-        <FavoritesContext.Provider value={{ favorites, toggleFavorite }}>
+        <FavoritesContext.Provider value={{ favorites, isFavorite, toggleFavorite }}>
             {children}
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
