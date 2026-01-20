@@ -13,11 +13,19 @@
 }
 
 .pokemon-list-title {
-    font-weight: bold !important;
-    text-align: center;
-    margin-bottom: 32px !important;
-    /* 4 * 8px */
-    color: #333;
+    font-weight: bold;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 24px !important;
+}
+
+.search-results-chip {
+    font-weight: 600 !important;
+    margin-bottom: 20px !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
 }
 
 .pokemon-list-pagination-container {

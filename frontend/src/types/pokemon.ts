@@ -43,6 +43,15 @@ export type PokemonSprites = {
     };
 };
 
+export type PokemonStat = {
+    base_stat: number;
+    effort: number;
+    stat: {
+        name: string;
+        url: string;
+    };
+};
+
 export type PokemonDetail = {
     id: number;
     name: string;
@@ -52,4 +61,5 @@ export type PokemonDetail = {
     types: PokemonType[];
     sprites: PokemonSprites;
     moves: PokemonMove[];
+    stats: PokemonStat[];
 };

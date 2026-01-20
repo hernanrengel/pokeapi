@@ -11,9 +11,10 @@ import './styles.css';
 
 interface PokemonCardProps {
     pokemon: PokemonDetail;
+    onClick?: (pokemon: PokemonDetail) => void;
 }
 
-const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
+const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, onClick }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
     const mainType = pokemon.types[0]?.type.name || 'normal';
     const backgroundColor = typeColors[mainType] || '#A8A77A';
@@ -22,12 +23,23 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
     const { favorites, toggleFavorite } = useFavorites();
     const isFavorite = favorites.includes(pokemon.id);
 
+    const handleCardClick = () => {
+        if (onClick) {
+            onClick(pokemon);
+        }
+    };
+
+    const handleFavoriteClick = (e: React.MouseEvent) => {
+        e.stopPropagation(); // Prevent card click when clicking favorite
+        toggleFavorite(pokemon.id);
+    };
+
     return (
         <Card
-            className="pokemon-card"
+            className={`pokemon-card ${onClick ? 'pokemon-card-clickable' : ''}`}
+            onClick={handleCardClick}
             style={{
                 background: `linear-gradient(135deg, ${backgroundColor} 0%, ${backgroundColor}aa 100%)`,
-                position: 'relative'
             }}
         >
             <Box className="pokemon-card-image-container">
@@ -64,7 +76,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
                 </Box>
                 {isAuthenticated && (
                     <IconButton
-                        onClick={() => toggleFavorite(pokemon.id)}
+                        onClick={handleFavoriteClick}
                         className="favorite-button"
                     >
                         {isFavorite ? (

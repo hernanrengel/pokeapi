@@ -3,18 +3,22 @@
     flex-direction: column;
     position: relative;
     overflow: visible !important;
-    margin-top: 40px;
+    margin: 40px auto 0;
     min-height: 120px;
+    width: 280px;
     color: white;
     border-radius: 16px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s ease-in-out;
+    transition: all 0.3s ease;
 }
 
-.pokemon-card:hover {
-    transform: scale(1.05);
+.pokemon-card-clickable {
     cursor: pointer;
-    z-index: 1;
+}
+
+.pokemon-card-clickable:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
 .pokemon-card-image-container {
@@ -28,7 +32,7 @@
 
 .pokemon-card-image {
     width: 120px;
-    height: 240px;
+    height: 255px;
     object-fit: contain;
     filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.3));
 }

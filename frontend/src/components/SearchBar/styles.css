@@ -1,0 +1,62 @@
+.search-bar-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px 16px;
+}
+
+.search-input {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+    transition: all 0.3s ease;
+}
+
+.search-input:hover {
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.25);
+}
+
+.search-input .MuiOutlinedInput-root {
+    border-radius: 16px;
+}
+
+.search-input .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(102, 126, 234, 0.3);
+    border-width: 2px;
+}
+
+.search-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(102, 126, 234, 0.5);
+}
+
+.search-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #667eea;
+    border-width: 2px;
+}
+
+.search-icon {
+    color: #667eea;
+    font-size: 24px;
+}
+
+.clear-button {
+    color: #999;
+    transition: all 0.2s ease;
+}
+
+.clear-button:hover {
+    color: #666;
+    background-color: rgba(102, 126, 234, 0.1);
+}
+
+.search-button {
+    color: #fff;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transition: all 0.3s ease;
+    margin-left: 4px;
+}
+
+.search-button:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: scale(1.05);
+}
