@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import Favorites from './index';
 import * as useFavoritesHook from '../../hooks/useFavorites';
 import { FavoritesProvider } from '../../context/FavoritesContext';
+import { AuthProvider } from '../../context/AuthContext';
 import type { PokemonDetail } from '../../types/pokemon';
 
 vi.mock('../../hooks/useFavorites');
@@ -29,6 +30,7 @@ const mockPokemon: PokemonDetail[] = [
             { move: { name: 'tackle', url: '' } },
             { move: { name: 'vine-whip', url: '' } }
         ],
+        stats: [],
     },
     {
         id: 25,
@@ -51,11 +53,18 @@ const mockPokemon: PokemonDetail[] = [
             { move: { name: 'thunder-shock', url: '' } },
             { move: { name: 'quick-attack', url: '' } }
         ],
+        stats: [],
     }
 ];
 
 const renderWithProvider = (ui: React.ReactElement) => {
-    return render(<FavoritesProvider>{ui}</FavoritesProvider>);
+    return render(
+        <AuthProvider>
+            <FavoritesProvider>
+                {ui}
+            </FavoritesProvider>
+        </AuthProvider>
+    );
 };
 
 describe('Favorites', () => {
