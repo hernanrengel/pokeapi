@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import apiClient from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { useFavorites as useFavoritesContext } from '../context/FavoritesContext';
 import type { PokemonDetail } from '../types/pokemon';
 
 interface FavoriteResponse {
@@ -12,6 +13,7 @@ interface FavoriteResponse {
 
 export const useFavorites = () => {
     const { isAuthenticated } = useAuth();
+    const favoritesContext = useFavoritesContext();
     const [favorites, setFavorites] = useState<PokemonDetail[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -53,7 +55,7 @@ export const useFavorites = () => {
         };
 
         fetchFavorites();
-    }, [isAuthenticated]);
+    }, [isAuthenticated, favoritesContext.favorites]);
 
     return { favorites, loading, error };
 };

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardMedia, Typography, Box, Chip, Skeleton } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Box, Chip, Skeleton, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import type { PokemonDetail } from '../../../../types/pokemon';
 import { typeColors } from '../../../../theme/theme';
+import { useFavorites } from '../../../../context/FavoritesContext';
 import './styles.css';
 
 interface FavoritePokemonCardProps {
@@ -9,12 +11,18 @@ interface FavoritePokemonCardProps {
 }
 
 const FavoritePokemonCard: React.FC<FavoritePokemonCardProps> = ({ pokemon }) => {
+    const { toggleFavorite } = useFavorites();
     const [imageLoaded, setImageLoaded] = useState(false);
     const mainType = pokemon.types[0]?.type.name || 'normal';
     const backgroundColor = typeColors[mainType] || '#A8A77A';
 
     // Limit moves to first 8 for display
     const displayMoves = pokemon.moves.slice(0, 8);
+
+    const handleRemoveFavorite = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        toggleFavorite(pokemon.id);
+    };
 
     return (
         <Card
@@ -39,12 +47,21 @@ const FavoritePokemonCard: React.FC<FavoritePokemonCardProps> = ({ pokemon }) =>
 
             <CardContent className="favorite-pokemon-card-content">
                 <Box className="favorite-pokemon-header">
-                    <Typography variant="h5" component="div" className="favorite-pokemon-name">
-                        {pokemon.name}
-                    </Typography>
-                    <Typography variant="caption" className="favorite-pokemon-id">
-                        #{pokemon.id.toString().padStart(3, '0')}
-                    </Typography>
+                    <Box>
+                        <Typography variant="h5" component="div" className="favorite-pokemon-name">
+                            {pokemon.name}
+                        </Typography>
+                        <Typography variant="caption" className="favorite-pokemon-id">
+                            #{pokemon.id.toString().padStart(3, '0')}
+                        </Typography>
+                    </Box>
+                    <IconButton
+                        onClick={handleRemoveFavorite}
+                        className="favorite-pokemon-remove-button"
+                        aria-label="Remove from favorites"
+                    >
+                        <DeleteIcon />
+                    </IconButton>
                 </Box>
 
                 <Box className="favorite-pokemon-types">

@@ -42,6 +42,7 @@
 .favorite-pokemon-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
     margin-bottom: 12px;
 }
@@ -81,6 +82,14 @@
 .favorite-pokemon-abilities strong,
 .favorite-pokemon-moves strong {
     color: #2c3e50;
+}
+
+.favorite-pokemon-remove-button {
+    color: #e91e63 !important;
+}
+
+.favorite-pokemon-remove-button:hover {
+    background-color: rgba(233, 30, 99, 0.1) !important;
 }
 
 /* Responsive design */
