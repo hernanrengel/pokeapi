@@ -39,4 +39,48 @@ export class PokeApiService {
             throw new Error(`Failed to fetch Pokémon detail for ${nameOrId}`);
         }
     }
+
+    /**
+     * Searches Pokémon by ability name.
+     * @param abilityName Name of the ability
+     * @returns Promise<PokemonDetail[]>
+     */
+    static async searchByAbility(abilityName: string): Promise<PokemonDetail[]> {
+        try {
+            const response = await axios.get(`${POKEAPI_BASE_URL}/ability/${abilityName}`);
+            const pokemonList = response.data.pokemon || [];
+
+            // Fetch details for each Pokemon (limit to first 50 for performance)
+            const detailPromises = pokemonList.slice(0, 50).map((p: any) =>
+                this.getPokemonDetail(p.pokemon.name)
+            );
+
+            return await Promise.all(detailPromises);
+        } catch (error) {
+            console.error(`Error searching by ability ${abilityName}:`, error);
+            throw new Error(`Failed to search by ability ${abilityName}`);
+        }
+    }
+
+    /**
+     * Searches Pokémon by type name.
+     * @param typeName Name of the type (e.g., fire, water)
+     * @returns Promise<PokemonDetail[]>
+     */
+    static async searchByType(typeName: string): Promise<PokemonDetail[]> {
+        try {
+            const response = await axios.get(`${POKEAPI_BASE_URL}/type/${typeName}`);
+            const pokemonList = response.data.pokemon || [];
+
+            // Fetch details for each Pokemon (limit to first 50 for performance)
+            const detailPromises = pokemonList.slice(0, 50).map((p: any) =>
+                this.getPokemonDetail(p.pokemon.name)
+            );
+
+            return await Promise.all(detailPromises);
+        } catch (error) {
+            console.error(`Error searching by type ${typeName}:`, error);
+            throw new Error(`Failed to search by type ${typeName}`);
+        }
+    }
 }

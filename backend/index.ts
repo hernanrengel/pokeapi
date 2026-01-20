@@ -82,6 +82,57 @@ app.get('/api/pokemon', async (req, res) => {
   }
 });
 
+app.get('/api/pokemon/search', async (req, res) => {
+  try {
+    const name = req.query.name as string;
+
+    if (!name) {
+      res.status(400).json({ error: 'Name query parameter is required' });
+      return;
+    }
+
+    const query = name.toLowerCase();
+    let results: any[] = [];
+
+    // Try 1: Search by Pokemon name
+    try {
+      const pokemon = await PokeApiService.getPokemonDetail(query);
+      results = [pokemon]; // Wrap in array for consistency
+      res.json(results);
+      return;
+    } catch (nameError) {
+      // Pokemon name not found, try other methods
+    }
+
+    // Try 2: Search by ability
+    try {
+      results = await PokeApiService.searchByAbility(query);
+      if (results.length > 0) {
+        res.json(results);
+        return;
+      }
+    } catch (abilityError) {
+      // Ability not found, try type
+    }
+
+    // Try 3: Search by type
+    try {
+      results = await PokeApiService.searchByType(query);
+      if (results.length > 0) {
+        res.json(results);
+        return;
+      }
+    } catch (typeError) {
+      // Type not found
+    }
+
+    // Nothing found
+    res.status(404).json({ error: `No Pokemon found for '${req.query.name}'` });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.get('/api/pokemon/:id', async (req, res) => {
   try {
     const data = await PokeApiService.getPokemonDetail(req.params.id);
